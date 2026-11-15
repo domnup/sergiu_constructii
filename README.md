@@ -98,3 +98,10 @@ După mutarea pe un hosting potrivit pentru activitatea comercială, configureaz
 5. Verifică modificările înainte de a face merge. GitHub Pages va folosi noua versiune numai după merge și deployment.
 
 Nu utiliza vechiul `PUSH_TO_GITHUB.bat` sau `UPLOAD_IMPROVEMENTS.bat` pentru această actualizare.
+
+
+## Pagini de servicii și portofoliu
+
+Au fost adăugate șase pagini detaliate de servicii, un portofoliu cu 17 fotografii unice, precum și pages.css/pages.js. Titlul principal al homepage-ului rămâne exact neschimbat. Cardurile serviciilor deschid paginile dedicate; butoanele de ofertă preselectează serviciul în formular.
+
+Imaginile sunt grupate după conținutul lor, nu după proiecte sau adrese inventate. Nu există fotografii dedicate verificate pentru un montaj complet de țiglă ceramică sau jgheaburi: paginile respective explică explicit că imaginile oferă doar context. URL-urile canonice folosesc momentan GitHub Pages și trebuie actualizate după cumpărarea domeniului. Contactele și formularul de trimitere reală rămân de configurat.
