@@ -35,7 +35,7 @@ Au fost identificate 20 de fotografii în arhiva originală; 3 au fost dubluri i
 - Culori și aspect: `styles.css` (`:root` la început).
 - Galerie, meniu, formular, număr de contact: `script.js`.
 - Fotografii: `assets/`.
-- Adaugă regiunea deservită și numărul de telefon al firmei înainte de publicarea finală.
+- Confirmă aria efectivă de deplasare și adaugă numărul real de telefon înainte de promovarea finală.
 
 ## Ce include
 
@@ -64,19 +64,37 @@ git push -u origin main
 
 Atenție: repository-ul este **public**, deci fotografiile și codul încărcate acolo vor deveni publice. Acest pas publică fișierele în GitHub, **nu activează automat găzduirea site-ului**. Pentru GitHub Pages trebuie configurată separat sursa în Settings → Pages.
 
-## Îmbunătățiri de pregătire pentru lansare
+## Actualizare SEO locală – Oradea, Bihor
 
-- Cele șase linkuri „Discută proiectul” din cardurile serviciilor deschid formularul cu serviciul potrivit deja selectat.
-- Fotografiile au dimensiuni explicite și decodare asincronă; culorile linkurilor mici au fost ajustate pentru lizibilitate.
-- Datele de contact necompletate și formularul fără expediere sunt marcate clar. **Nu considera formularul activ pentru primirea cererilor** până nu configurezi numărul/emailul.
-- Linkul Open Graph către fotografie este momentan absolut și folosește adresa temporară GitHub Pages; **actualizează-l la domeniul final**.
-- Înainte de lansare, completează telefonul, WhatsApp-ul, emailul și zona deservită. Recomandat: adaugă o metodă de trimitere reală a formularului, informații despre protecția datelor și pagini legale potrivite modului de operare.
-- Un domeniu propriu nu schimbă singur furnizorul de hosting. Pentru site-ul comercial al firmei, folosește un furnizor care permite găzduire comercială și conectează repository-ul GitHub ca sursă de cod. GitHub Pages nu este conceput pentru site-uri comerciale.
+- Titlul paginii, descrierea SEO, Open Graph și conținutul vizibil menționează **Oradea, județul Bihor, România**.
+- A fost adăugată o secțiune „Zona de activitate” și o întrebare relevantă în FAQ, fără afirmații neconfirmate despre întreaga arie de deplasare.
+- Formularul include acum un câmp obligatoriu „Localitatea lucrării”, inclus în mesajul pregătit pentru client; **nu trimite automat solicitările**.
+- A fost remediată lățimea excesivă a secțiunii „Despre noi” pe ecrane înguste, care crea derulare orizontală.
+- Au fost adăugate o adresă URL canonică, `sitemap.xml` și date structurate JSON-LD cu tipurile `WebSite` și `Organization`.
+- **NU** a fost publicată o adresă de stradă, un telefon, un email sau un program de lucru inventat. Datele mai complete de tip `LocalBusiness` pot fi adăugate doar după ce informațiile reale au fost confirmate.
 
-- A fost adăugată o secțiune FAQ cu răspunsuri bazate numai pe serviciile menționate de firmă, fără promisiuni inventate.
+### Când cumpărăm domeniul
 
-## Publică îmbunătățirile pentru revizuire (fără modificarea site-ului live)
+Înlocuiește peste tot URL-ul temporar `https://domnup.github.io/sergiu_constructii/` cu adresa finală, în special în:
 
-Folosește **`UPLOAD_IMPROVEMENTS.bat`** din această arhivă pe Windows (necesită Git for Windows și autentificare GitHub). Scriptul clonează repository-ul într-un folder temporar, creează ramura `improvements/site-review-2026-11-15`, copiază numai cele 4 fișiere modificate, apoi publică acea ramură. Nu modifică `main`.
+- `index.html`: `rel=canonical`, `og:url`, `og:image` și datele JSON-LD
+- `sitemap.xml`: `<loc>`
 
-După finalizare, mergi la: https://github.com/domnup/sergiu_constructii/compare/main...improvements/site-review-2026-11-15 și creează un Pull Request. **Nu folosi `PUSH_TO_GITHUB.bat` pentru această actualizare**; acesta a fost creat pentru încărcarea inițială a site-ului.
+După mutarea pe un hosting potrivit pentru activitatea comercială, configurează domeniul în contul de hosting, verifică HTTPS, înregistrează domeniul în **Google Search Console** și transmite sitemapul. Nu crea pagini cu servicii în localități în care firma nu operează în realitate.
+
+### Date necesare înainte de promovare
+
+1. Numărul real de telefon / WhatsApp și adresa email de contact.
+2. Confirmarea localităților în care echipa poate prelua lucrări (deocamdată doar **Oradea** este cunoscută).
+3. Domeniul ales și serviciul de găzduire.
+4. Dacă se dorește, integrarea unui serviciu real pentru trimiterea formularului și informarea GDPR asociată.
+
+### Publică această versiune prin Pull Request
+
+1. Dezarhivează arhiva ZIP.
+2. Rulează `UPLOAD_ORADEA_SEO.bat` pe Windows cu Git for Windows instalat și GitHub autentificat.
+3. Scriptul creează ramura `improvements/oradea-local-seo-2026-11-15` din versiunea curentă `main` și publică numai `index.html`, `styles.css`, `script.js`, `README.md` și `sitemap.xml`. Nu modifică `main` automat.
+4. Creează un Pull Request la `https://github.com/domnup/sergiu_constructii/compare/main...improvements/oradea-local-seo-2026-11-15`.
+5. Verifică modificările înainte de a face merge. GitHub Pages va folosi noua versiune numai după merge și deployment.
+
+Nu utiliza vechiul `PUSH_TO_GITHUB.bat` sau `UPLOAD_IMPROVEMENTS.bat` pentru această actualizare.

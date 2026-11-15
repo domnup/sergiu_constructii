@@ -48,3 +48,27 @@
 .faq-questions details p{font-size:13px;line-height:1.85;color:var(--muted);padding:0 25px 24px 2px}
 .faq-questions summary:focus-visible{outline:3px solid var(--copper);outline-offset:3px}
 @media(max-width:680px){.faq-grid{grid-template-columns:1fr;gap:28px}.faq-questions summary{font-size:14px}}
+
+/* Local visibility: honest Oradea/Bihor location without displaying an unverified street address. */
+.hero-location{display:inline-flex;align-items:center;gap:7px;color:#e1b18e;font-weight:800}
+.hero-location span{font-size:19px;line-height:1}
+.service-area-section{background:#1b2b2d;color:#fff;padding:79px 0;border-top:1px solid #304044;border-bottom:1px solid #304044}
+.service-area-inner{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.65fr);align-items:center;gap:clamp(35px,8vw,110px)}
+.service-area-copy h2{font-family:var(--font-display);font-size:clamp(33px,3.8vw,54px);line-height:1.16;letter-spacing:-.045em;max-width:710px;margin-bottom:21px}
+.service-area-copy h2 em{font-style:normal;color:#e3a276}
+.service-area-copy>p:not(.section-kicker){max-width:710px;font-size:14px;line-height:1.85;color:#d7dfdb;margin-top:14px}
+.service-area-copy strong{color:#fff}
+.service-area-side{min-height:255px;padding:28px 30px 30px;background:#27393b;border:1px solid #465657;display:flex;flex-direction:column;align-items:flex-start;gap:7px}
+.area-pin{font-size:35px;line-height:1;color:#e3a276;margin-bottom:9px}
+.area-overline{font-size:10px;font-weight:800;letter-spacing:.16em;color:#d7ae92}
+.service-area-side strong{font-family:var(--font-display);font-size:34px;letter-spacing:-.04em}
+.service-area-side>span:nth-last-of-type(1){font-size:13px;color:#d7dfdb}
+.service-area-side .button{margin-top:20px}
+@media(max-width:760px){.service-area-inner{grid-template-columns:1fr;gap:30px}.service-area-section{padding:62px 0}.service-area-side{min-height:0}}
+/* Fix inherited mobile overflow in the image + text About grid (min-content sizing). */
+@media(max-width:680px){
+  .about-grid{grid-template-columns:minmax(0,1fr)}
+  .about-visual,.about-content{min-width:0;width:100%}
+  .about-main-image{max-width:100%}
+  .about-pillars{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
