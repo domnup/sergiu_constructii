@@ -63,3 +63,20 @@ git push -u origin main
 ```
 
 Atenție: repository-ul este **public**, deci fotografiile și codul încărcate acolo vor deveni publice. Acest pas publică fișierele în GitHub, **nu activează automat găzduirea site-ului**. Pentru GitHub Pages trebuie configurată separat sursa în Settings → Pages.
+
+## Îmbunătățiri de pregătire pentru lansare
+
+- Cele șase linkuri „Discută proiectul” din cardurile serviciilor deschid formularul cu serviciul potrivit deja selectat.
+- Fotografiile au dimensiuni explicite și decodare asincronă; culorile linkurilor mici au fost ajustate pentru lizibilitate.
+- Datele de contact necompletate și formularul fără expediere sunt marcate clar. **Nu considera formularul activ pentru primirea cererilor** până nu configurezi numărul/emailul.
+- Linkul Open Graph către fotografie este momentan absolut și folosește adresa temporară GitHub Pages; **actualizează-l la domeniul final**.
+- Înainte de lansare, completează telefonul, WhatsApp-ul, emailul și zona deservită. Recomandat: adaugă o metodă de trimitere reală a formularului, informații despre protecția datelor și pagini legale potrivite modului de operare.
+- Un domeniu propriu nu schimbă singur furnizorul de hosting. Pentru site-ul comercial al firmei, folosește un furnizor care permite găzduire comercială și conectează repository-ul GitHub ca sursă de cod. GitHub Pages nu este conceput pentru site-uri comerciale.
+
+- A fost adăugată o secțiune FAQ cu răspunsuri bazate numai pe serviciile menționate de firmă, fără promisiuni inventate.
+
+## Publică îmbunătățirile pentru revizuire (fără modificarea site-ului live)
+
+Folosește **`UPLOAD_IMPROVEMENTS.bat`** din această arhivă pe Windows (necesită Git for Windows și autentificare GitHub). Scriptul clonează repository-ul într-un folder temporar, creează ramura `improvements/site-review-2026-11-15`, copiază numai cele 4 fișiere modificate, apoi publică acea ramură. Nu modifică `main`.
+
+După finalizare, mergi la: https://github.com/domnup/sergiu_constructii/compare/main...improvements/site-review-2026-11-15 și creează un Pull Request. **Nu folosi `PUSH_TO_GITHUB.bat` pentru această actualizare**; acesta a fost creat pentru încărcarea inițială a site-ului.

@@ -17,6 +17,10 @@ if (menuToggle && nav) {
   });
   nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  document.addEventListener('click', e => {
+    if (nav.classList.contains('is-open') && !e.target.closest('.site-header')) closeMenu();
+  });
+  window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMenu(); });
 }
 
 const filters = [...document.querySelectorAll('[data-filter]')];
@@ -64,6 +68,15 @@ let swipeStartX;
 dialog.addEventListener('touchstart',e=>{swipeStartX=e.changedTouches[0].screenX;},{passive:true});
 dialog.addEventListener('touchend',e=>{if(swipeStartX===undefined)return; const delta=e.changedTouches[0].screenX-swipeStartX;if(Math.abs(delta)>65)showPhoto(galleryIndex+(delta<0?1:-1));swipeStartX=undefined;},{passive:true});
 
+// When a visitor clicks a service card, preselect that service in the quote form.
+const serviceInput = document.querySelector('#service');
+document.querySelectorAll('.service-card a[data-service]').forEach(link => {
+  link.addEventListener('click', () => {
+    const option = [...serviceInput.options].find(item => item.value === link.dataset.service);
+    if (option) serviceInput.value = option.value;
+  });
+});
+
 const form = document.querySelector('#quote-form');
 const output = document.querySelector('#generated-message');
 const result = document.querySelector('#form-result');
@@ -87,12 +100,16 @@ function composeMessage(){
 }
 form.addEventListener('submit', e => {
   e.preventDefault();
-  if (!form.reportValidity())return;
+  const nameInput = document.querySelector('#full-name');
+  const detailsInput = document.querySelector('#details');
+  nameInput.value = nameInput.value.trim();
+  detailsInput.value = detailsInput.value.trim();
+  if (!form.reportValidity()) return;
   const message=composeMessage();
   output.value=message;result.hidden=false;status.textContent='';
   if (CONTACT.email) {window.location.href='mailto:'+CONTACT.email+'?subject='+encodeURIComponent('Cerere de ofertă – Sergiu Construcții Proiect')+'&body='+encodeURIComponent(message);}
   else if (CONTACT.whatsapp) {window.open('https://wa.me/'+CONTACT.whatsapp+'?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');}
-  else {status.textContent='Cererea este pregătită. Copiază mesajul pentru a-l trimite firmei după completarea datelor de contact.';result.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  else {status.textContent='Mesajul este pregătit, dar nu a fost trimis. Copiază-l și păstrează-l până când firma publică datele de contact.';result.scrollIntoView({behavior:'smooth',block:'nearest'});}
 });
 document.querySelector('#copy-message').addEventListener('click',async()=>{
   const txt=output.value;
