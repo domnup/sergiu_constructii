@@ -1,5 +1,8 @@
 /* Sergiu Construcții Proiect – site static, fără biblioteci JS.
    Pentru contact direct, completează datele de mai jos și publică din nou fișierele. */
+// PRE-APPROVAL SAFETY: keep 'preview' until an approved Netlify deployment,
+// active form detection, notification settings and legal privacy information exist.
+const ENQUIRY_MODE = 'preview'; // Switch to 'netlify' only after launch sign-off.
 const CONTACT = Object.freeze({
   phone: '',      // Exemplu de format: +40 7xx xxx xxx
   whatsapp: '',   // Doar cifre, cu prefix de țară, fără + (ex: 407xxxxxxxx)
@@ -92,8 +95,18 @@ const contactSmallNote=document.querySelector('.contact-small-note');
 if (CONTACT.phone) { const a=document.createElement('a');a.href='tel:'+CONTACT.phone.replace(/[^+\d]/g,'');a.textContent=CONTACT.phone;phoneDisplay.replaceChildren(a); }
 if (CONTACT.email) { const a=document.createElement('a');a.href='mailto:'+CONTACT.email;a.textContent=CONTACT.email;emailDisplay.replaceChildren(a); }
 if (CONTACT.phone || CONTACT.email) contactSmallNote.textContent='Contactează-ne pentru a discuta detaliile lucrării.';
-if (CONTACT.email) {formButtonLabel.textContent='Pregătește emailul';helper.textContent='La apăsare se va deschide aplicația ta de email, cu mesajul pregătit.';}
-else if (CONTACT.whatsapp) {formButtonLabel.textContent='Pregătește mesaj WhatsApp';helper.textContent='La apăsare se va deschide WhatsApp, cu mesajul pregătit.';}
+// Preview mode never sends the data. Netlify mode uses an approved production site.
+const quoteSubmit = document.querySelector('#quote-submit');
+const privacyNote = document.querySelector('#privacy-note');
+quoteSubmit.disabled = false;
+if (ENQUIRY_MODE === 'netlify') {
+  formButtonLabel.textContent = 'Trimite cererea de ofertă';
+  helper.textContent = 'Cererea va fi trimisă către firma Sergiu Construcții Proiect.';
+  privacyNote.textContent = 'Datele vor fi utilizate pentru gestionarea cererii. Citește informarea privind prelucrarea datelor înainte de trimitere.';
+} else {
+  formButtonLabel.textContent = 'Previzualizează cererea';
+  helper.textContent = 'Mod demonstrativ: mesajul nu este trimis. Îl poți copia după previzualizare.';
+}
 function composeMessage(){
   const name=document.querySelector('#full-name').value.trim();
   const phone=document.querySelector('#phone').value.trim();
@@ -102,20 +115,50 @@ function composeMessage(){
   const details=document.querySelector('#details').value.trim();
   return `Bună ziua, Sergiu Construcții Proiect!\n\nAș dori o ofertă pentru o lucrare.\n\nNume: ${name}\nTelefon: ${phone}\nLocalitatea lucrării: ${city}\nLucrare: ${service}\n\nDetalii:\n${details}\n\nVă mulțumesc!`;
 }
-form.addEventListener('submit', e => {
-  e.preventDefault();
+form.addEventListener('submit', async event => {
+  event.preventDefault();
   const nameInput = document.querySelector('#full-name');
-  const detailsInput = document.querySelector('#details');
   const cityInput = document.querySelector('#work-city');
-  nameInput.value = nameInput.value.trim();
-  detailsInput.value = detailsInput.value.trim();
-  cityInput.value = cityInput.value.trim();
+  const phoneInput = document.querySelector('#phone');
+  const detailsInput = document.querySelector('#details');
+  for (const field of [nameInput, cityInput, phoneInput, detailsInput]) field.value = field.value.trim();
   if (!form.reportValidity()) return;
-  const message=composeMessage();
-  output.value=message;result.hidden=false;status.textContent='';
-  if (CONTACT.email) {window.location.href='mailto:'+CONTACT.email+'?subject='+encodeURIComponent('Cerere de ofertă – Sergiu Construcții Proiect')+'&body='+encodeURIComponent(message);}
-  else if (CONTACT.whatsapp) {window.open('https://wa.me/'+CONTACT.whatsapp+'?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');}
-  else {status.textContent='Mesajul este pregătit, dar nu a fost trimis. Copiază-l și păstrează-l până când firma publică datele de contact.';result.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  if (document.querySelector('#company-site').value.trim()) return; // Honeypot.
+  const message = composeMessage();
+  output.value = message;
+  result.hidden = false;
+  status.textContent = '';
+  status.className = 'form-status';
+  if (ENQUIRY_MODE !== 'netlify') {
+    status.textContent = 'Previzualizare pregătită. Nicio cerere nu a fost trimisă.';
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return;
+  }
+  // Netlify Forms only: enabled AFTER customer approval and deployment to Netlify.
+  // Netlify must process the static HTML form (data-netlify="true") at build time.
+  const payload = new URLSearchParams(new FormData(form));
+  quoteSubmit.disabled = true;
+  formButtonLabel.textContent = 'Se trimite...';
+  status.textContent = 'Se transmite cererea...';
+  try {
+    const response = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: payload.toString()
+    });
+    if (!response.ok) throw new Error('Răspunsul serverului: ' + response.status);
+    result.hidden = true;
+    form.reset();
+    status.className = 'form-status is-success';
+    status.textContent = 'Cererea a fost acceptată de serviciul de formulare. Confirmarea notificării pe email se verifică separat.';
+  } catch (error) {
+    status.className = 'form-status is-error';
+    status.textContent = 'Cererea nu a putut fi trimisă. Verifică conexiunea și încearcă din nou. Datele rămân în formular.';
+    result.hidden = false;
+  } finally {
+    quoteSubmit.disabled = false;
+    formButtonLabel.textContent = 'Trimite cererea de ofertă';
+  }
 });
 document.querySelector('#copy-message').addEventListener('click',async()=>{
   const txt=output.value;

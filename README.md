@@ -105,3 +105,29 @@ Nu utiliza vechiul `PUSH_TO_GITHUB.bat` sau `UPLOAD_IMPROVEMENTS.bat` pentru ace
 Au fost adăugate șase pagini detaliate de servicii, un portofoliu cu 17 fotografii unice, precum și pages.css/pages.js. Titlul principal al homepage-ului rămâne exact neschimbat. Cardurile serviciilor deschid paginile dedicate; butoanele de ofertă preselectează serviciul în formular.
 
 Imaginile sunt grupate după conținutul lor, nu după proiecte sau adrese inventate. Nu există fotografii dedicate verificate pentru un montaj complet de țiglă ceramică sau jgheaburi: paginile respective explică explicit că imaginile oferă doar context. URL-urile canonice folosesc momentan GitHub Pages și trebuie actualizate după cumpărarea domeniului. Contactele și formularul de trimitere reală rămân de configurat.
+
+
+## Premium preview and Netlify-ready enquiry (client approval pending)
+
+This branch introduces premium presentation improvements and a real delivery path prepared **but not activated**. The homepage headline stays exactly the same.
+
+### Safety / preview mode
+- In `script.js`, `ENQUIRY_MODE = 'preview'` is the default. It only formats and displays the visitor's enquiry in their browser. **No network request sends personal details** from the JavaScript form in preview mode. The submit control is initially disabled until JavaScript loads, and the message clearly states that it has not been sent.
+- The form does not currently have `data-netlify="true"`; it is **not registered** as a Netlify form. The code is explicitly not production-ready for real delivery.
+- The site currently has no verified company phone, email, or privacy policy. Don't ask customers to submit personal information via the demo.
+
+### How to activate after written customer approval
+1. Deploy the site to an approved Netlify project. Enable **Forms → Form detection** and redeploy after enabling detection.
+2. In `index.html`, change the opening quote form element to `<form id="quote-form" name="cerere-oferta" method="POST" action="/" data-netlify="true" netlify-honeypot="company-site" data-enquiry-mode="netlify">`. Keep the existing hidden `form-name` input and honeypot field. Netlify must see the static HTML at deploy time.
+3. In `script.js`, switch `ENQUIRY_MODE` from `'preview'` to `'netlify'` only after form detection is confirmed.
+4. Add the client's verified email/phone/WhatsApp and an accurate privacy notice including controller identity, purpose, lawful basis, retention, processors and contact details. Update the form's privacy note/link accordingly; consult the client's legal requirements before collecting live enquiries.
+5. In Netlify Forms, set the notification destination and confirm it. Verify new submissions appear in the Forms dashboard. Configure anti-spam and agreed data retention/access controls.
+6. Test with a genuine end-to-end enquiry: validation, honeypot, successful submission, notification delivery, failed-network feedback, mobile layout and accessibility. Do not advertise the form as working until these tests pass.
+7. After custom domain is chosen, update canonical URLs, Open Graph URLs, sitemap and any privacy links.
+
+**Important:** A successful HTTP response does not prove an email notification reached the inbox. Confirm both submission storage and delivery during production testing. For the preview branch and GitHub Pages, no customer enquiry is transmitted to Netlify.
+
+Netlify references:
+- https://docs.netlify.com/manage/forms/setup/
+- https://docs.netlify.com/manage/forms/spam-filters/
+- https://docs.netlify.com/manage/forms/submissions/
