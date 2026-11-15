@@ -70,6 +70,9 @@ dialog.addEventListener('touchend',e=>{if(swipeStartX===undefined)return; const 
 
 // When a visitor clicks a service card, preselect that service in the quote form.
 const serviceInput = document.querySelector('#service');
+const requestedService = new URLSearchParams(window.location.search).get('serviciu');
+if (requestedService) { const match = [...serviceInput.options].find(option => option.value === requestedService); if (match) serviceInput.value = match.value; }
+
 document.querySelectorAll('.service-card a[data-service]').forEach(link => {
   link.addEventListener('click', () => {
     const option = [...serviceInput.options].find(item => item.value === link.dataset.service);
