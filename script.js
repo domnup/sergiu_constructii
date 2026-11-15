@@ -94,16 +94,19 @@ else if (CONTACT.whatsapp) {formButtonLabel.textContent='Pregătește mesaj What
 function composeMessage(){
   const name=document.querySelector('#full-name').value.trim();
   const phone=document.querySelector('#phone').value.trim();
+  const city=document.querySelector('#work-city').value.trim();
   const service=document.querySelector('#service').value;
   const details=document.querySelector('#details').value.trim();
-  return `Bună ziua, Sergiu Construcții Proiect!\n\nAș dori o ofertă pentru o lucrare.\n\nNume: ${name}\nTelefon: ${phone}\nLucrare: ${service}\n\nDetalii:\n${details}\n\nVă mulțumesc!`;
+  return `Bună ziua, Sergiu Construcții Proiect!\n\nAș dori o ofertă pentru o lucrare.\n\nNume: ${name}\nTelefon: ${phone}\nLocalitatea lucrării: ${city}\nLucrare: ${service}\n\nDetalii:\n${details}\n\nVă mulțumesc!`;
 }
 form.addEventListener('submit', e => {
   e.preventDefault();
   const nameInput = document.querySelector('#full-name');
   const detailsInput = document.querySelector('#details');
+  const cityInput = document.querySelector('#work-city');
   nameInput.value = nameInput.value.trim();
   detailsInput.value = detailsInput.value.trim();
+  cityInput.value = cityInput.value.trim();
   if (!form.reportValidity()) return;
   const message=composeMessage();
   output.value=message;result.hidden=false;status.textContent='';
