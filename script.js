@@ -150,7 +150,7 @@ form.addEventListener('submit', async event => {
     result.hidden = true;
     form.reset();
     status.className = 'form-status is-success';
-    status.textContent = 'Cererea a fost transmisă. Firma a primit solicitarea prin serviciul de formulare.';
+    status.textContent = 'Cererea a fost acceptată de serviciul de formulare. Confirmarea notificării pe email se verifică separat.';
   } catch (error) {
     status.className = 'form-status is-error';
     status.textContent = 'Cererea nu a putut fi trimisă. Verifică conexiunea și încearcă din nou. Datele rămân în formular.';
